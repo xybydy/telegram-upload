@@ -172,7 +172,9 @@ class Client(TelegramClient):
         messages = []
         for file in files:
             has_files = True
-            self.file_exist(entity,file.file_name)
+            if self.file_exist(entity,file.file_name):
+                return file.file_name +" already exists"
+
             progress, bar = get_progress_bar('Uploading', file.file_name, file.file_size)
 
             thumb = file.get_thumbnail()
@@ -231,7 +233,9 @@ class Client(TelegramClient):
                 self.delete_messages(entity, [message])
 
     def file_exist(self, entity, term):
-        print(list(self.iter_messages(entity,search=term)))
+        if len(list(self.iter_messages(entity,search=term))) > 0:
+            return True
+        return False
 
     def forward_to(self, message, destinations):
         for destination in destinations:
