@@ -172,6 +172,7 @@ class Client(TelegramClient):
         messages = []
         for file in files:
             has_files = True
+            self.file_exist(entity,file.file_name)
             progress, bar = get_progress_bar('Uploading', file.file_name, file.file_size)
 
             thumb = file.get_thumbnail()
