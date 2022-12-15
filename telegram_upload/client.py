@@ -173,6 +173,7 @@ class Client(TelegramClient):
         for file in files:
             has_files = True
             if self.file_exist(entity,file.file_name):
+                click.echo('File already exists "{}")'.format(file.file_name))
                 return file.file_name +" already exists"
 
             progress, bar = get_progress_bar('Uploading', file.file_name, file.file_size)
