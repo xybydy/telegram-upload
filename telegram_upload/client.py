@@ -231,7 +231,7 @@ class Client(TelegramClient):
                 self.delete_messages(entity, [message])
 
     def file_exist(self, entity, term):
-        print(self.iter_messages(entity,search=term))
+        print(list(self.iter_messages(entity,search=term)))
 
     def forward_to(self, message, destinations):
         for destination in destinations:
