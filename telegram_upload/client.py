@@ -1,5 +1,6 @@
 import getpass
 import json
+import time
 import re
 from distutils.version import StrictVersion
 from typing import Iterable, Union
@@ -8,7 +9,7 @@ from urllib.parse import urlparse
 import click
 import os
 
-from telethon.errors import ApiIdInvalidError
+from telethon.errors import ApiIdInvalidError, FloodWaitError
 from telethon.network import ConnectionTcpMTProxyRandomizedIntermediate
 from telethon.tl import types, functions
 from telethon.tl.types import Message, DocumentAttributeFilename, InputMessagesFilterDocument
@@ -234,7 +235,13 @@ class Client(TelegramClient):
                 self.delete_messages(entity, [message])
 
     def file_exist(self, entity, term):
-        if len(list(self.iter_messages(entity,search=term))) > 0:
+        try:
+            s = list(self.iter_messages(entity,search=term))
+        except FloodWaitError as e:
+            time.sleep(e.seconds)
+            s = list(self.iter_messages(entity,search=term))
+
+        if len(s) > 0:
             return True
         return False
 
