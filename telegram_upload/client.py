@@ -238,6 +238,8 @@ class Client(TelegramClient):
         try:
             s = list(self.iter_messages(entity,search=term))
         except FloodWaitError as e:
+            click.echo('Waiting for "{}") seconds'.format(e.seconds))
+
             time.sleep(e.seconds)
             s = list(self.iter_messages(entity,search=term))
 
