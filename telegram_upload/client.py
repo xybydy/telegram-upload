@@ -175,6 +175,8 @@ class Client(TelegramClient):
             has_files = True
             if self.file_exist(entity,file.file_name):
                 click.echo('File already exists "{}")'.format(file.file_name))
+                with open("eh.txt","a") as fii:
+                    fi.write(file.file_name+"\n")
                 continue
 
             progress, bar = get_progress_bar('Uploading', file.file_name, file.file_size)
